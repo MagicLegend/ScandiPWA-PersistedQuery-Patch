@@ -1,0 +1,16 @@
+diff --git a/vendor/scandipwa/persisted-query/src/Model/PurgeCache.php b/vendor/scandipwa/persisted-query/src/Model/PurgeCache.php
+index ccc7167..689dc54 100644
+--- a/vendor/scandipwa/persisted-query/src/Model/PurgeCache.php
++++ b/vendor/scandipwa/persisted-query/src/Model/PurgeCache.php
+@@ -75,7 +75,10 @@ class PurgeCache extends CorePurgeCache
+         $socketAdapter = $this->socketAdapterFactory->create();
+         $servers = $this->cacheServer->getUris();
+         $socketAdapter->setOptions(['timeout' => 10]);
+-        $headers = ['X-Pool' => $poolTag];
++        $headers = [
++            'X-Pool' => $poolTag,
++            'X-Magento-Tags-Pattern' => '.*' // Patch this line due to https://github.com/scandipwa/scandipwa/issues/2762
++        ];
+ 
+         foreach ($servers as $server) {
+             $headers['Host'] = $server->getHost();
